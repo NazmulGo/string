@@ -26,4 +26,5 @@ pair<ll, ll> get_hash(string s)
         hs2 %= M2;
     }
     return {hs1, hs2};
+    // return (hs1 * M2 + hs2);
 }
