@@ -4,14 +4,10 @@ int pw1[N], pw2[N];
 
 void prePower()
 {
-    pw1[0] = 1;
+    pw1[0] = 1, pw2[0] = 1;
     for(int i=1; i<N; i++)
     {
         pw1[i] = (1LL * pw1[i-1] * p1) % M1;
-    }
-    pw2[0] = 1;
-    for(int i=1; i<N; i++)
-    {
         pw2[i] = (1LL * pw2[i-1] * p2) % M2;
     }
 }
@@ -19,7 +15,7 @@ void prePower()
 pair<ll, ll> get_hash(string s)
 {
     ll n = s.size();
-        
+      
     ll hs1 = 0, hs2 = 0;
     for(int i=0; i<n; i++)
     {
