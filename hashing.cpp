@@ -29,7 +29,7 @@ int dy[] = {+1, -1, 0, 0, +1, -1, +1, -1};
 const int N = 1e6+12;
 const int p1 = 137, p2 = 277;
 const int M1 = 1e9+7, M2 = 139793893;
-pair<ll, ll> pw[N], ipw[N], pref[N];
+pair<int, int> pw[N], ipw[N], pref[N];
 
 
 ll big_mod(ll a, ll b, ll mod)
@@ -49,30 +49,30 @@ void prePower()
     pw[0]={1, 1};
     for(int i=1; i<N; i++)
     {
-        pw[i].first = (pw[i-1].first * p1) % M1;
-        pw[i].second = (pw[i-1].second * p2) % M2;
+        pw[i].first = (1LL * pw[i-1].first * p1) % M1;
+        pw[i].second = (1LL * pw[i-1].second * p2) % M2;
     }
 
-    ll p1_inv = big_mod(p1, M1-2, M1);
-    ll p2_inv = big_mod(p2, M2-2, M2);
+    int p1_inv = big_mod(p1, M1-2, M1);
+    int p2_inv = big_mod(p2, M2-2, M2);
     ipw[0] = {1, 1};
     for(int i=1; i<N; i++)
     {
-        ipw[i].first = (ipw[i-1].first * p1_inv) % M1;
-        ipw[i].second = (ipw[i-1].second * p2_inv) % M2;
+        ipw[i].first = (1LL * ipw[i-1].first * p1_inv) % M1;
+        ipw[i].second = (1LL * ipw[i-1].second * p2_inv) % M2;
     }
 }
 
-pair<ll, ll> hash_of(string s)
+pair<int, int> hash_of(string s)
 {
-    ll n = s.size();
-    pair<ll, ll> hs = {0, 0};
+    int n = s.size();
+    pair<int, int> hs = {0, 0};
     for(int i=0; i<n; i++)
     {
-        hs.first += (s[i] * pw[i].first) % M1;
+        hs.first += (1LL * s[i] * pw[i].first) % M1;
         hs.first %= M1;
 
-        hs.second += (s[i] * pw[i].second) % M2;
+        hs.second += (1LL * s[i] * pw[i].second) % M2;
         hs.second %= M2;
     }
     return hs;
@@ -80,28 +80,28 @@ pair<ll, ll> hash_of(string s)
 
 void build(string s)
 {
-    ll n = s.size();
+    int n = s.size();
     for(int i=0; i<n; i++)
     {
-        pref[i].first = (s[i] * pw[i].first) % M1;
+        pref[i].first = (1LL * s[i] * pw[i].first) % M1;
         if(i) pref[i].first = (pref[i].first + pref[i-1].first) % M1;
         
-        pref[i].second = (s[i] * pw[i].second) % M2;
+        pref[i].second = (1LL * s[i] * pw[i].second) % M2;
         if(i) pref[i].second = (pref[i].second + pref[i-1].second) % M2;
     }
 }
 
-pair<ll, ll> get_hash(ll i, ll j)
+pair<int, int> get_hash(int i, int j)
 {
-    pair<ll, ll> hs = {0, 0};
+    pair<int, int> hs = {0, 0};
     
     hs.first = pref[j].first;
     if(i) hs.first = (hs.first - pref[i-1].first + M1) % M1;
-    hs.first = (hs.first * ipw[i].first) % M1;
+    hs.first = (1LL * hs.first * ipw[i].first) % M1;
 
     hs.second = pref[j].second;
     if(i) hs.second = (hs.second - pref[i-1].second + M2) % M2;
-    hs.second = (hs.second * ipw[i].second) % M2;
+    hs.second = (1LL * hs.second * ipw[i].second) % M2;
     
     return hs;
 }
